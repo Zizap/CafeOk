@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">CafeOk</string>
+
+    <string name="home">Home</string>
+    <string name="favorite">Favorite</string>
+    <string name="delivery">Delivery</string>
+    <string name="coffee">Coffee</string>
+    <string name="account">Account</string>
+    <string name="card">Card</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="good_morning">Good Morning Mihail!</string>
+    <string name="search">Search</string>
+    <string name="clear_all">Clear all</string>
+    <string name="sum_total">Sum total:</string>
+    <string name="add_to_basket">Add to basket</string>
+
+</resources>
