@@ -71,7 +71,7 @@ class Coffee : Fragment() {
         basketViewModel.startInsert(
             coffeeModel.id,
             coffeeModel.name,
-            coffeeModel.image,
+            coffeeModel.image2,
             coffeeModel.price,
             coffeeModel.id.toString(),
             count.toString())

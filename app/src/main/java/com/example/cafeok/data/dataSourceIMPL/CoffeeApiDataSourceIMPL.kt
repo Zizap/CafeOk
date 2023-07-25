@@ -40,11 +40,11 @@ class CoffeeApiDataSourceIMPL(private val coffeeDataSource: CoffeeDataSource): C
                         )
                     }
                 }
-                Toast.makeText(context,"ЗАГРУЗКА", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"LOAD", Toast.LENGTH_SHORT).show()
             }
 
             override fun onFailure(call: Call<ArrayList<CoffeeApiModel>>, t: Throwable) {
-                Toast.makeText(context,"ОШИБКА!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"ERROR!", Toast.LENGTH_SHORT).show()
             }
 
         })

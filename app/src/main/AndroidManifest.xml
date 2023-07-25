@@ -16,8 +16,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.loginUI.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.loginUI.SignInActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.MainActivity"
-            android:exported="true">
+            android:exported="false"/>
+        <activity
+            android:name=".presentation.loginUI.Login"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

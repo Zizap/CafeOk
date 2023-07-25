@@ -1,8 +1,10 @@
 package com.example.cafeok.presentation
 
 import android.app.Application
+import com.example.cafeok.presentation.di.auth
 import com.example.cafeok.presentation.di.basket
 import com.example.cafeok.presentation.di.coffee
+import com.example.cafeok.presentation.di.order
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -15,7 +17,7 @@ class App:Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(coffee, basket)
+            modules(coffee, basket, order, auth)
         }
     }
 }

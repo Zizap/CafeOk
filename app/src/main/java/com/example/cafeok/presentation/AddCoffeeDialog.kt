@@ -49,6 +49,7 @@ class AddCoffeeDialog(coffeeModel: CoffeeModel,
 
         binding?.buttonAddCoffee?.setOnClickListener(View.OnClickListener {
             addCoffee(count,coffee)
+            dismiss()
         })
 
         return binding?.root

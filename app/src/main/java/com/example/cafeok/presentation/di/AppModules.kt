@@ -7,14 +7,15 @@ import com.example.cafeok.data.dataSourceIMPL.CoffeeApiDataSourceIMPL
 import com.example.cafeok.data.dataSourceIMPL.CoffeeDataSourceIMPL
 import com.example.cafeok.data.localDB.BaDB
 import com.example.cafeok.data.localDB.CofDB
+import com.example.cafeok.data.localDB.OrDB
 import com.example.cafeok.data.repository.BasketRepository
 import com.example.cafeok.data.repository.CoffeeRepository
-import com.example.cafeok.domain.repository.BasketCall
-import com.example.cafeok.domain.repository.CoffeeCall
-import com.example.cafeok.domain.useCase.BasketUseCase
-import com.example.cafeok.domain.useCase.CoffeeUseCase
+import com.example.cafeok.data.repository.FirebaseRepository
+import com.example.cafeok.data.repository.OrderRepository
 import com.example.cafeok.presentation.viewModels.BasketViewModel
 import com.example.cafeok.presentation.viewModels.CoffeeViewModel
+import com.example.cafeok.presentation.viewModels.FirebaseViewModel
+import com.example.cafeok.presentation.viewModels.OrderViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -33,9 +34,7 @@ val coffee = module {
 
     single<CoffeeApiDataSource> { CoffeeApiDataSourceIMPL(get()) }
 
-    single<CoffeeCall> { CoffeeRepository(get(),get()) }
-
-    single { CoffeeUseCase(get()) }
+    single { CoffeeRepository(get(),get()) }
 
     viewModel { CoffeeViewModel(get()) }
 
@@ -50,10 +49,31 @@ val basket = module {
 
     single { get<BaDB>().basketDao }
 
-    single<BasketCall> { BasketRepository(get()) }
-
-    single { BasketUseCase(get()) }
+    single { BasketRepository(get()) }
 
     viewModel { BasketViewModel(get()) }
+
+}
+
+val order = module {
+
+    single{
+        Room.databaseBuilder(androidContext(), OrDB::class.java,
+            "OrDB").build()
+    }
+
+    single { get<OrDB>().ordersDao }
+
+    single{ OrderRepository(get()) }
+
+    viewModel { OrderViewModel(get()) }
+
+}
+
+val auth = module {
+
+    single { FirebaseRepository() }
+
+    viewModel{FirebaseViewModel(get())}
 
 }

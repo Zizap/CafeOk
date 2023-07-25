@@ -5,13 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cafeok.data.models.BuyBasketModel
-import com.example.cafeok.domain.useCase.BasketUseCase
-import com.example.cafeok.domain.useCase.CoffeeUseCase
+import com.example.cafeok.data.repository.BasketRepository
 import kotlinx.coroutines.launch
 
-class BasketViewModel(private val basketUseCase: BasketUseCase): ViewModel() {
+class BasketViewModel(private val basketRepository: BasketRepository): ViewModel() {
 
-    val loadCoffeeFromBasket = basketUseCase.loadCoffeeFromBasket()
+    val loadCoffeeFromBasket = basketRepository.loadCoffeeFromBasket()
 
     fun startInsert (id:Int?,name:String?,image:String?,price:String?,idProduct:String?,count:String?){
         insert(
@@ -24,27 +23,58 @@ class BasketViewModel(private val basketUseCase: BasketUseCase): ViewModel() {
     }
 
     private fun updateCoffeeFromBasket(buyBasketModel: BuyBasketModel) = viewModelScope.launch{
-        basketUseCase.updateCoffeeFromBasket(buyBasketModel)
+        basketRepository.updateCoffeeFromBasket(buyBasketModel)
     }
 
     private fun insert (buyBasketModel: BuyBasketModel) = viewModelScope.launch{
-        basketUseCase.insertCoffeeToBasket(buyBasketModel)
+        basketRepository.insertCoffeeToBasket(buyBasketModel)
     }
 
     fun clearBasket() = viewModelScope.launch {
-        basketUseCase.clear()
+        basketRepository.clear()
     }
 
     fun deleteCoffeeToBasketFromBasket(idProduct:String) = viewModelScope.launch{
-        basketUseCase.deleteCoffeeToBasketFromBasket(idProduct)
+        basketRepository.deleteCoffeeToBasketFromBasket(idProduct)
     }
 
      fun deleteCoffeeFromBasket(idProductToBasket: Int) = viewModelScope.launch {
-        basketUseCase.deleteCoffeeFromBasket(idProductToBasket)
+         basketRepository.deleteCoffeeFromBasket(idProductToBasket)
     }
 
     fun loadCoffeeFromBasket(idProduct:String): LiveData<List<BuyBasketModel>>{
-        return basketUseCase.getAllCoffeeToBasketFromBasket(idProduct)
+        return basketRepository.getAllCoffeeToBasketFromBasket(idProduct)
+    }
+
+    fun add(buyBasketModel: BuyBasketModel){
+        var count = buyBasketModel.count!!.toInt()
+        count += 1
+        startUpdateCoffeeFromBasket(
+            buyBasketModel.id,
+            buyBasketModel.image2,
+            buyBasketModel.name,
+            buyBasketModel.price,
+            count.toString(),
+            buyBasketModel.idProduct
+        )
+    }
+
+     fun delete(buyBasketModel: BuyBasketModel) {
+        if (buyBasketModel.count!!.toInt()<=1){
+            deleteCoffeeToBasketFromBasket(buyBasketModel.id.toString())
+        } else {
+            var count = buyBasketModel.count!!.toInt()
+            count -= 1
+            startUpdateCoffeeFromBasket(
+                buyBasketModel.id,
+                buyBasketModel.image2,
+                buyBasketModel.name,
+                buyBasketModel.price,
+                count.toString(),
+                buyBasketModel.idProduct
+            )
+        }
+
     }
 
 }

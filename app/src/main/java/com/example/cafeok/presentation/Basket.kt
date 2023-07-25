@@ -1,6 +1,7 @@
 package com.example.cafeok.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -60,53 +61,26 @@ class Basket : Fragment() {
     }
 
     private fun addCoffee(buyBasketModel: BuyBasketModel) {
-        var count = buyBasketModel.count!!.toInt()
-        count += 1
-        basketViewModel.startUpdateCoffeeFromBasket(
-            buyBasketModel.id,
-            buyBasketModel.image2,
-            buyBasketModel.name,
-            buyBasketModel.price,
-            count.toString(),
-            buyBasketModel.idProduct
-        )
+        basketViewModel.add(buyBasketModel)
     }
 
     private fun deleteCoffee(buyBasketModel: BuyBasketModel) {
-        if (buyBasketModel.count!!.toInt()<=1){
-            basketViewModel.deleteCoffeeToBasketFromBasket(buyBasketModel.id.toString())
-        } else {
-            var count = buyBasketModel.count!!.toInt()
-            count -= 1
-            basketViewModel.startUpdateCoffeeFromBasket(
-                buyBasketModel.id,
-                buyBasketModel.image2,
-                buyBasketModel.name,
-                buyBasketModel.price,
-                count.toString(),
-                buyBasketModel.idProduct
-            )
-        }
-
+       basketViewModel.delete(buyBasketModel)
     }
 
     fun getTotalSum(){
-
-        val coffeeList = basketViewModel.loadCoffeeFromBasket
-
         var sum = 0
-
-        coffeeList.observe(viewLifecycleOwner, Observer { allElements ->
+        basketViewModel.loadCoffeeFromBasket.observe(viewLifecycleOwner, Observer {
+            allElements ->
             sum = 0
             for (element in allElements){
                 sum = sum + (element.price!!.toInt() * element.count!!.toInt())
+                Log.e("Check image", element.image2.toString())
             }
-
             binding?.sumTotal?.post {
                 binding?.sumTotal?.text = "$$sum"
             }
         })
-
     }
 
     private fun openDescription(buyBasketModel: BuyBasketModel) {
