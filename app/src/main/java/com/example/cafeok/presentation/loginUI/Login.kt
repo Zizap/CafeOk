@@ -17,8 +17,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class Login : AppCompatActivity() {
 
-    var binding: ActivityLoginBinding? = null
-    val firebaseViewModel: FirebaseViewModel by viewModel()
+    private var binding: ActivityLoginBinding? = null
+    private val firebaseViewModel: FirebaseViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

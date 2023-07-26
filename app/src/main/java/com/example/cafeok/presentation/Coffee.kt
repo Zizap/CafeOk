@@ -3,10 +3,12 @@ package com.example.cafeok.presentation
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -18,7 +20,9 @@ import com.example.cafeok.databinding.FragmentCoffeeBinding
 import com.example.cafeok.presentation.adapters.CatalogAdapter
 import com.example.cafeok.presentation.viewModels.BasketViewModel
 import com.example.cafeok.presentation.viewModels.CoffeeViewModel
+import com.example.cafeok.presentation.viewModels.FirebaseViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.Exception
 
 
 class Coffee : Fragment() {
@@ -27,7 +31,7 @@ class Coffee : Fragment() {
     private var catalogAdapter: CatalogAdapter? = null
     private val coffeeViewModel: CoffeeViewModel by viewModel()
     private val basketViewModel: BasketViewModel by viewModel()
-
+    private val firebaseViewModel: FirebaseViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +41,18 @@ class Coffee : Fragment() {
 
         initRecyclerCoffee()
         loadCoffee()
+
+        val animation = AnimationUtils.loadAnimation(context as FragmentActivity,R.anim.animation_for_button)
+        binding?.textMorning?.startAnimation(animation)
+
+        firebaseViewModel.fireData.observe(viewLifecycleOwner, Observer { userData ->
+            if (userData != null) {
+                binding?.textMorning?.text = "Good Morning ${userData.username}!"
+                Log.e("UserName", userData.username)
+            } else {
+                Toast.makeText(context as FragmentActivity, "Error from textMorning", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         binding?.searchTF?.addTextChangedListener(object: TextWatcher {
 
@@ -103,6 +119,5 @@ class Coffee : Fragment() {
 
         panelDescription.show((context as FragmentActivity).supportFragmentManager, "panelDescription")
     }
-
 
 }

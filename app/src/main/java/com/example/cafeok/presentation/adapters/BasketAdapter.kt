@@ -3,7 +3,9 @@ package com.example.cafeok.presentation.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cafeok.R
 import com.example.cafeok.data.models.BuyBasketModel
 import com.example.cafeok.databinding.BasketItemBinding
 import com.squareup.picasso.Picasso
@@ -26,6 +28,8 @@ class BasketAdapter(private val addCoffee:(BuyBasketModel)->Unit,
     }
 
     override fun onBindViewHolder(holder: BasketHolder, position: Int) {
+        val animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.recycler_item_anim)
+        holder.itemView.startAnimation(animation)
         holder.bind(basketCoffeeList[position],addCoffee,deleteCoffee,openDescription)
     }
 

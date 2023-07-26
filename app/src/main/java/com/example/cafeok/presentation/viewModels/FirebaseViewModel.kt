@@ -1,16 +1,15 @@
 package com.example.cafeok.presentation.viewModels
 
 import android.content.Context
-import android.content.Intent
-import android.util.Patterns
-import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.cafeok.data.models.UserModel
 import com.example.cafeok.data.repository.FirebaseRepository
-import com.example.cafeok.presentation.MainActivity
-import com.example.cafeok.presentation.di.auth
 import com.google.firebase.auth.FirebaseUser
 
 class FirebaseViewModel(private val repository: FirebaseRepository): ViewModel() {
+
+    val fireData: LiveData<UserModel?> get() = repository.readDataFromDatabase()
 
     fun registerUser(email: String, password: String, username: String, callback: (Boolean, String?) -> Unit) {
         repository.registerUser(email, password, username, callback)
@@ -33,7 +32,8 @@ class FirebaseViewModel(private val repository: FirebaseRepository): ViewModel()
     }
 
     fun authenticationСheck():Boolean{
-       return repository.authenticationСheck()
+       return repository.authenticationCheck()
     }
+
 
 }

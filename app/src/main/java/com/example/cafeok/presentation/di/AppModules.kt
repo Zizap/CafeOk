@@ -3,8 +3,10 @@ package com.example.cafeok.presentation.di
 import androidx.room.Room
 import com.example.cafeok.data.dataSource.CoffeeApiDataSource
 import com.example.cafeok.data.dataSource.CoffeeDataSource
+import com.example.cafeok.data.dataSource.FirebaseDataSource
 import com.example.cafeok.data.dataSourceIMPL.CoffeeApiDataSourceIMPL
 import com.example.cafeok.data.dataSourceIMPL.CoffeeDataSourceIMPL
+import com.example.cafeok.data.dataSourceIMPL.FirebaseDataSourceIMPL
 import com.example.cafeok.data.localDB.BaDB
 import com.example.cafeok.data.localDB.CofDB
 import com.example.cafeok.data.localDB.OrDB
@@ -72,7 +74,9 @@ val order = module {
 
 val auth = module {
 
-    single { FirebaseRepository() }
+    single<FirebaseDataSource> { FirebaseDataSourceIMPL() }
+
+    single { FirebaseRepository(get()) }
 
     viewModel{FirebaseViewModel(get())}
 
