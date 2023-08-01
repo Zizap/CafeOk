@@ -88,10 +88,10 @@ class Coffee : Fragment() {
 
     private fun addCoffee(coffeeModel: CoffeeModel, count:Int){
         basketViewModel.startInsert(
-            coffeeModel.id!!,
-            coffeeModel.name!!,
-            coffeeModel.image2!!,
-            coffeeModel.price!!,
+            coffeeModel.id,
+            coffeeModel.name,
+            coffeeModel.image2,
+            coffeeModel.price,
             coffeeModel.id.toString(),
             count.toString())
     }

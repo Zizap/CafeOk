@@ -9,18 +9,18 @@ class OrderModel (
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "order_coffee_id")
-    var id: Int,
+    var id: Int? = null,
 
     @ColumnInfo(name = "order_name_user")
-    var nameUser: String,
+    var nameUser: String? = null,
 
     @ColumnInfo(name = "order_phone_user")
-    var phoneUser: String,
+    var phoneUser: String? = null,
 
     @ColumnInfo(name = "order_description")
-    var description: String,
+    var description: String? = null,
 
     @ColumnInfo(name = "order_total_price")
-    var totalPrice: String,
+    var totalPrice: String? = null,
 
     )

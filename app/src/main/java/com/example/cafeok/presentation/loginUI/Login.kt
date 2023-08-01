@@ -24,7 +24,7 @@ class Login : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
-
+        setContentView(binding.root)
 
         binding.signIn.setOnClickListener {
            val intent = Intent(this,SignInActivity::class.java)
@@ -42,11 +42,6 @@ class Login : AppCompatActivity() {
             finish()
         }
 
-        setContentView(binding.root)
-    }
-
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-
         val animation = AnimationUtils.loadAnimation(this, R.anim.animation_for_login_icon)
         val animation2 = AnimationUtils.loadAnimation(this,R.anim.animation_for_button)
 
@@ -57,9 +52,6 @@ class Login : AppCompatActivity() {
         binding.signUp.startAnimation(animation2)
         binding.next.startAnimation(animation2)
 
-
-
-        return super.onCreateView(name, context, attrs)
     }
 
     override fun onStart() {

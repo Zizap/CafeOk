@@ -79,7 +79,7 @@ class Basket : Fragment() {
             allElements ->
             sum = 0
             for (element in allElements){
-                sum = sum + (element.price.toInt() * element.count.toInt())
+                sum += (element.price!!.toInt() * element.count!!.toInt())
                 Log.e("Check image", element.image2.toString())
             }
             binding.sumTotal.post {

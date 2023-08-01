@@ -12,13 +12,13 @@ class BasketViewModel(private val basketRepository: BasketRepository): ViewModel
 
     val loadCoffeeFromBasket = basketRepository.loadCoffeeFromBasket()
 
-    fun startInsert (id:Int,name:String,image:String,price:String,idProduct:String,count:String){
+    fun startInsert (id:Int?,name:String?,image:String?,price:String?,idProduct:String?,count:String?){
         insert(
             BuyBasketModel(id,image,name,price,count,idProduct)
         )
     }
 
-    fun startUpdateCoffeeFromBasket(idBasket:Int,image2:String,name: String,price: String,count: String,idProduct: String){
+    fun startUpdateCoffeeFromBasket(idBasket:Int?,image2:String?,name: String?,price: String?,count: String?,idProduct: String?){
         updateCoffeeFromBasket(BuyBasketModel(idBasket,image2,name,price,count,idProduct))
     }
 
