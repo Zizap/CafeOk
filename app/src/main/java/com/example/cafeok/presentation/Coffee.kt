@@ -14,7 +14,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cafeok.R
-import com.example.cafeok.data.models.BuyBasketModel
 import com.example.cafeok.data.models.CoffeeModel
 import com.example.cafeok.databinding.FragmentCoffeeBinding
 import com.example.cafeok.presentation.adapters.CatalogAdapter
@@ -22,12 +21,13 @@ import com.example.cafeok.presentation.viewModels.BasketViewModel
 import com.example.cafeok.presentation.viewModels.CoffeeViewModel
 import com.example.cafeok.presentation.viewModels.FirebaseViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.Exception
 
 
 class Coffee : Fragment() {
 
-    private var binding: FragmentCoffeeBinding? = null
+
+    private var _binding: FragmentCoffeeBinding? = null
+    private val binding get() = _binding!!
     private var catalogAdapter: CatalogAdapter? = null
     private val coffeeViewModel: CoffeeViewModel by viewModel()
     private val basketViewModel: BasketViewModel by viewModel()
@@ -36,25 +36,29 @@ class Coffee : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentCoffeeBinding.inflate(inflater,container,false)
+    ): View {
+        _binding = FragmentCoffeeBinding.inflate(inflater,container,false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         initRecyclerCoffee()
         loadCoffee()
 
         val animation = AnimationUtils.loadAnimation(context as FragmentActivity,R.anim.animation_for_button)
-        binding?.textMorning?.startAnimation(animation)
+        binding.textMorning.startAnimation(animation)
 
         firebaseViewModel.fireData.observe(viewLifecycleOwner, Observer { userData ->
             if (userData != null) {
-                binding?.textMorning?.text = "Good Morning ${userData.username}!"
+                binding.textMorning.text = "Good Morning ${userData.username}!"
                 Log.e("UserName", userData.username)
             } else {
-                Toast.makeText(context as FragmentActivity, "Error from textMorning", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Error from textMorning", Toast.LENGTH_SHORT).show()
             }
         })
 
-        binding?.searchTF?.addTextChangedListener(object: TextWatcher {
+        binding.searchTF.addTextChangedListener(object: TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -66,14 +70,13 @@ class Coffee : Fragment() {
 
             override fun afterTextChanged(s: Editable?) {}
         })
-        return binding?.root
     }
 
     private fun initRecyclerCoffee(){
-        binding?.recyclerCoffee?.layoutManager = LinearLayoutManager(context)
+        binding.recyclerCoffee.layoutManager = LinearLayoutManager(context)
         catalogAdapter = CatalogAdapter({   coffeeModel: CoffeeModel -> openDialogAddCoffee(coffeeModel)},
             {coffeeModel: CoffeeModel -> deleteCoffee(coffeeModel)}, { coffeeModel: CoffeeModel -> openDescription(coffeeModel)})
-        binding?.recyclerCoffee?.adapter = catalogAdapter
+        binding.recyclerCoffee.adapter = catalogAdapter
     }
 
     private fun loadCoffee(){
@@ -85,10 +88,10 @@ class Coffee : Fragment() {
 
     private fun addCoffee(coffeeModel: CoffeeModel, count:Int){
         basketViewModel.startInsert(
-            coffeeModel.id,
-            coffeeModel.name,
-            coffeeModel.image2,
-            coffeeModel.price,
+            coffeeModel.id!!,
+            coffeeModel.name!!,
+            coffeeModel.image2!!,
+            coffeeModel.price!!,
             coffeeModel.id.toString(),
             count.toString())
     }
@@ -98,7 +101,7 @@ class Coffee : Fragment() {
         val parameters = Bundle()
         parameters.putString("nameCoffee", coffeeModel.name)
         panelDialogAddCoffee.arguments = parameters
-        panelDialogAddCoffee.show((context as FragmentActivity).supportFragmentManager, "DialogAddCoffee")
+        panelDialogAddCoffee.show((requireActivity()).supportFragmentManager, "DialogAddCoffee")
     }
 
     private fun deleteCoffee(coffeeModel: CoffeeModel){
@@ -117,7 +120,12 @@ class Coffee : Fragment() {
         parameters.putString("descriptionCoffee", coffeeModel.description)
         panelDescription.arguments = parameters
 
-        panelDescription.show((context as FragmentActivity).supportFragmentManager, "panelDescription")
+        panelDescription.show((requireActivity()).supportFragmentManager, "panelDescription")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cafeok.R
 import com.example.cafeok.data.models.BuyBasketModel
 import com.example.cafeok.data.models.CoffeeModel
+import com.example.cafeok.databinding.FragmentAddCoffeeDialogBinding
 import com.example.cafeok.databinding.FragmentBasketBinding
 import com.example.cafeok.presentation.adapters.BasketAdapter
 import com.example.cafeok.presentation.adapters.CatalogAdapter
@@ -22,7 +23,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class Basket : Fragment() {
 
-    private var binding: FragmentBasketBinding? = null
+
+    private var _binding: FragmentBasketBinding? = null
+    private val binding get() = _binding!!
     private var basketAdapter: BasketAdapter? = null
     private val basketViewModel: BasketViewModel by viewModel()
 
@@ -30,27 +33,29 @@ class Basket : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentBasketBinding.inflate(inflater, container, false)
+    ): View {
+        _binding = FragmentBasketBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecyclerCoffee()
         loadCoffeeFromBasket()
         getTotalSum()
 
-        binding?.buttonClear?.setOnClickListener(View.OnClickListener {
+        binding.buttonClear.setOnClickListener(View.OnClickListener {
             basketViewModel.clearBasket()
         })
 
-        return binding?.root
     }
 
     private fun initRecyclerCoffee() {
-        binding?.recyclerBasket?.layoutManager = LinearLayoutManager(context)
+        binding.recyclerBasket.layoutManager = LinearLayoutManager(context)
         basketAdapter =
             BasketAdapter({ buyBasketModel: BuyBasketModel -> addCoffee(buyBasketModel) },
                 { buyBasketModel: BuyBasketModel -> deleteCoffee(buyBasketModel) },
                 { buyBasketModel: BuyBasketModel -> openDescription(buyBasketModel) })
-        binding?.recyclerBasket?.adapter = basketAdapter
+        binding.recyclerBasket.adapter = basketAdapter
     }
 
     private fun loadCoffeeFromBasket() {
@@ -68,19 +73,24 @@ class Basket : Fragment() {
        basketViewModel.delete(buyBasketModel)
     }
 
-    fun getTotalSum(){
+    private fun getTotalSum(){
         var sum = 0
         basketViewModel.loadCoffeeFromBasket.observe(viewLifecycleOwner, Observer {
             allElements ->
             sum = 0
             for (element in allElements){
-                sum = sum + (element.price!!.toInt() * element.count!!.toInt())
+                sum = sum + (element.price.toInt() * element.count.toInt())
                 Log.e("Check image", element.image2.toString())
             }
-            binding?.sumTotal?.post {
-                binding?.sumTotal?.text = "$$sum"
+            binding.sumTotal.post {
+                binding.sumTotal.text = "$$sum"
             }
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun openDescription(buyBasketModel: BuyBasketModel) {

@@ -9,21 +9,21 @@ class BuyBasketModel (
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "basket_id")
-    var id: Int? = null,
+    var id: Int,
 
     @ColumnInfo(name = "basket_image2")
-    var image2: String? = null,
+    var image2: String,
 
     @ColumnInfo(name = "basket_name")
-    var name: String? = null,
+    var name: String,
 
     @ColumnInfo(name = "basket_price")
-    var price: String? = null,
+    var price: String,
 
     @ColumnInfo(name = "basket_count")
-    var count: String? = null,
+    var count: String,
 
     @ColumnInfo(name = "basket_idProduct")
-    var idProduct: String? = null,
+    var idProduct: String,
 
     )

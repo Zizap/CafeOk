@@ -17,23 +17,29 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class Account : Fragment() {
 
-    val firebaseViewModel: FirebaseViewModel by viewModel()
-
-    var binding: FragmentAccountBinding? = null
+    private val firebaseViewModel: FirebaseViewModel by viewModel()
+    private var _binding: FragmentAccountBinding? = null
+    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentAccountBinding.inflate(inflater,container,false)
+    ): View {
+        _binding = FragmentAccountBinding.inflate(inflater,container,false)
+        return binding.root
+    }
 
-        binding?.signOut?.setOnClickListener {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.signOut.setOnClickListener {
             firebaseViewModel.logoutUser()
-            Toast.makeText(context as FragmentActivity, "You are logged out", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context as FragmentActivity,Login::class.java)
+            Toast.makeText(requireActivity(), "You are logged out", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(),Login::class.java)
             startActivity(intent)
         }
+    }
 
-        return binding?.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

@@ -52,7 +52,8 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:inputType="text"
-                    android:textColor="@color/black">
+                    android:textColor="@color/black"
+                    >
 
                 </com.google.android.material.textfield.TextInputEditText>
 

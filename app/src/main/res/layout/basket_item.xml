@@ -8,7 +8,7 @@
     android:layout_margin="10dp"
     android:id="@+id/recItem">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageCoffee"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </ImageView>
+    </androidx.appcompat.widget.AppCompatImageView>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/nameCoffee"
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/buttonMinus"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -74,9 +74,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        </ImageButton>
+        </androidx.appcompat.widget.AppCompatImageButton>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/countCoffee"
             android:layout_width="21dp"
             android:layout_height="48dp"
@@ -88,11 +88,11 @@
             android:textColor="@color/white"
             android:gravity="center"
             android:textSize="25sp">
-        </TextView>
+        </androidx.appcompat.widget.AppCompatTextView>
 
 
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/buttonPlus"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -103,7 +103,7 @@
             app:layout_constraintStart_toEndOf="@+id/buttonMinus"
             app:layout_constraintTop_toTopOf="parent">
 
-        </ImageButton>
+        </androidx.appcompat.widget.AppCompatImageButton>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

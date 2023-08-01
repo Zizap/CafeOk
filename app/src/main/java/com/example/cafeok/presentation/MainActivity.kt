@@ -11,7 +11,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private var binding:ActivityMainBinding? = null
+    private lateinit var binding:ActivityMainBinding
     private val coffeeViewModel: CoffeeViewModel by viewModel()
     private val basketViewModel: BasketViewModel by viewModel()
 
@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
         coffeeViewModel.migration(this)
 
         supportFragmentManager.beginTransaction().replace(R.id.mainContent,Home()).commit()
-        binding?.bottomMainMenu?.selectedItemId = R.id.bottomMenuHome
+        binding.bottomMainMenu.selectedItemId = R.id.bottomMenuHome
 
-        binding?.bottomMainMenu?.setOnItemSelectedListener { item ->
+        binding.bottomMainMenu.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.bottomMenuHome -> supportFragmentManager.beginTransaction().replace(R.id.mainContent, Home()).commit()
                 R.id.bottomMenuAccount -> supportFragmentManager.beginTransaction().replace(R.id.mainContent, Account()).commit()
@@ -36,15 +36,15 @@ class MainActivity : AppCompatActivity() {
             return@setOnItemSelectedListener true
         }
 
-        setContentView(binding?.root)
+        setContentView(binding.root)
     }
 
     private fun loadCoffeeToBasket(){
         basketViewModel.loadCoffeeFromBasket.observe(this, Observer {
             val count = it.count()
-            val badge = binding?.bottomMainMenu?.getOrCreateBadge(R.id.bottomMenuCard)
-            badge?.isVisible = count>0
-            badge?.number = count
+            val badge = binding.bottomMainMenu.getOrCreateBadge(R.id.bottomMenuCard)
+            badge.isVisible = count>0
+            badge.number = count
         })
     }
 

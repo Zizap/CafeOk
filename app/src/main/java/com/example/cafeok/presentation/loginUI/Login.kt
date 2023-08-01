@@ -17,7 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class Login : AppCompatActivity() {
 
-    private var binding: ActivityLoginBinding? = null
+    private lateinit var binding: ActivityLoginBinding
     private val firebaseViewModel: FirebaseViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,23 +26,23 @@ class Login : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
 
 
-        binding?.signIn?.setOnClickListener {
+        binding.signIn.setOnClickListener {
            val intent = Intent(this,SignInActivity::class.java)
             startActivity(intent)
         }
 
-        binding?.signUp?.setOnClickListener {
+        binding.signUp.setOnClickListener {
             val intent = Intent(this,SignUpActivity::class.java)
             startActivity(intent)
         }
 
-        binding?.next?.setOnClickListener {
+        binding.next.setOnClickListener {
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)
             finish()
         }
 
-        setContentView(binding?.root)
+        setContentView(binding.root)
     }
 
     override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
@@ -50,12 +50,12 @@ class Login : AppCompatActivity() {
         val animation = AnimationUtils.loadAnimation(this, R.anim.animation_for_login_icon)
         val animation2 = AnimationUtils.loadAnimation(this,R.anim.animation_for_button)
 
-        binding?.tvName?.startAnimation(animation)
-        binding?.appCompatImageView?.startAnimation(animation)
+        binding.tvName.startAnimation(animation)
+        binding.appCompatImageView.startAnimation(animation)
 
-        binding?.signIn?.startAnimation(animation2)
-        binding?.signUp?.startAnimation(animation2)
-        binding?.next?.startAnimation(animation2)
+        binding.signIn.startAnimation(animation2)
+        binding.signUp.startAnimation(animation2)
+        binding.next.startAnimation(animation2)
 
 
 
@@ -70,10 +70,5 @@ class Login : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
-
-
     }
-
-
 }

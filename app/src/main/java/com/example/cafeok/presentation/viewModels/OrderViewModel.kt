@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 class OrderViewModel(private val orderRepository: OrderRepository): ViewModel() {
 
-    fun startInsert (id:Int?,nameUser:String?,phoneUser:String?,description:String?,totalPrice:String?){
+    fun startInsert (id:Int,nameUser:String,phoneUser:String,description:String,totalPrice:String){
         insert(
             OrderModel(id,nameUser,phoneUser, description, totalPrice)
         )
